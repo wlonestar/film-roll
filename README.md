@@ -59,6 +59,8 @@ export function ContactSheet({
 
 Built-in cartridges: `light-notes`, `kodak-gold-200`, `kodak-portra-400`, `kodak-ektar-100`, `fuji-superia-400`, and `ilford-hp5-400`.
 
+The branded shells are independent, stylized reconstructions—not official artwork or exact packaging replicas. Brand names and marks remain the property of their respective owners; no affiliation or endorsement is implied.
+
 For custom shells, provide `{ src, geometry }`. The geometry must describe the same image crop and film slit as the rendered asset so the live strip lines up. See the exported `FilmRollGeometry` type for the required metrics.
 
 ## Styling and behavior
