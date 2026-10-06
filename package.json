@@ -1,0 +1,47 @@
+{
+  "name": "film-roll",
+  "version": "0.1.0",
+  "description": "A reusable 35mm film contact-sheet component for React.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wlonestar/film-roll.git"
+  },
+  "homepage": "https://github.com/wlonestar/film-roll#readme",
+  "bugs": {
+    "url": "https://github.com/wlonestar/film-roll/issues"
+  },
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./styles.css": "./dist/film-roll.css",
+    "./assets/*": "./dist/assets/*"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "scripts": {
+    "build": "node scripts/clean.mjs && tsc -p tsconfig.build.json && node scripts/copy-assets.mjs",
+    "prepack": "npm run build"
+  },
+  "peerDependencies": {
+    "@types/react": ">=18.0.0",
+    "react": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "typescript": "^5.9.3"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  }
+}

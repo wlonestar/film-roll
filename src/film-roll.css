@@ -1,0 +1,132 @@
+/* FilmRoll: a 35mm contact strip unspooled from a rendered cartridge.
+   Theme with --filmroll-* custom properties; every token has a default. */
+.film-roll-container {
+  width: 100%;
+  container-type: inline-size;
+  container-name: film-roll;
+}
+.film-roll {
+  /* Film, perforations and shell share one scale, including on mobile. */
+  --filmroll-frame: clamp(var(--filmroll-frame-min, 180px), calc(21.7125vw - 18.25px), var(--filmroll-frame-max, 244px));
+  --filmroll-stock: var(--filmroll-stock-color, #242526);
+  --filmroll-edge: var(--filmroll-edge-color, rgba(224, 226, 228, .18));
+  --filmroll-hole: var(--filmroll-hole-color, #eee7d9);
+  --filmroll-stock-height: calc(var(--filmroll-frame) * 35 / 36);
+  --filmroll-shell-ratio: calc(35 / 36 * var(--filmroll-aspect) / var(--filmroll-slot-height));
+  --filmroll-shell-height: calc(var(--filmroll-stock-height) / var(--filmroll-slot-height));
+  --filmroll-shell-width: calc(var(--filmroll-shell-height) * var(--filmroll-aspect));
+  /* The felt opening projects almost entirely behind the left silhouette, so
+     tuck the strip a fixed depth into the opaque exit-side panel instead of
+     aiming at the (clipped) felt edges. */
+  --filmroll-overlap: calc(var(--filmroll-shell-width) * max(var(--filmroll-slot-right), var(--filmroll-content-left) + 0.025));
+  --filmroll-film-offset: calc(var(--filmroll-shell-height) * var(--filmroll-slot-offset));
+  position: relative;
+  direction: ltr;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--filmroll-shell-width);
+  align-items: center;
+}
+.film-roll::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  right: calc(var(--filmroll-shell-width) - var(--filmroll-overlap));
+  top: calc(50% + var(--filmroll-film-offset));
+  width: calc(var(--filmroll-frame) * 5 / 36);
+  height: var(--filmroll-stock-height);
+  transform: translateY(-50%);
+  background: linear-gradient(90deg, transparent, rgba(13, 12, 10, .48));
+  pointer-events: none;
+}
+/* Wheel deltas update scrollLeft directly; snapping would discard small steps. */
+.film-roll .roll-window { width: calc(100% + var(--filmroll-overlap)); min-width: 0; transform: translateY(var(--filmroll-film-offset)); overflow-x: auto; overscroll-behavior-inline: contain; scrollbar-width: none; -ms-overflow-style: none; scroll-snap-type: none; touch-action: pan-x pan-y; }
+.film-roll .roll-window::-webkit-scrollbar { display: none; }
+.film-roll .film-cartridge {
+  position: relative;
+  z-index: 2;
+  width: var(--filmroll-shell-width);
+  height: var(--filmroll-shell-height);
+  filter: drop-shadow(calc(var(--filmroll-frame) * .008) calc(var(--filmroll-frame) * .016) calc(var(--filmroll-frame) * .012) rgba(24, 24, 22, .16));
+  pointer-events: none;
+  user-select: none;
+}
+.film-roll .film-cartridge img { display: block; width: 100%; height: auto; }
+/* 135 still film: 36×24mm frame, 35mm stock, 38mm frame pitch; KS perforations 2.80×1.98mm at 4.75mm pitch. */
+.film-roll .roll-film { display: flex; align-items: center; width: max-content; min-width: 100%; }
+.film-roll .film-leader {
+  position: relative;
+  flex: 0 0 calc(var(--filmroll-frame) * 19 / 36);
+  height: var(--filmroll-stock-height);
+  background: var(--filmroll-stock);
+  box-shadow: inset 0 1px 0 var(--filmroll-edge), inset 0 -1px 0 rgba(0, 0, 0, .35);
+  /* A rounded narrow tip sweeps up into the full-width stock. */
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 350' preserveAspectRatio='none'%3E%3Cpath fill='white' d='M160 0H200V350H24Q0 350 0 326V172Q0 147 26 147H64C120 147 144 86 150 24Q153 0 160 0Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 350' preserveAspectRatio='none'%3E%3Cpath fill='white' d='M160 0H200V350H24Q0 350 0 326V172Q0 147 26 147H64C120 147 144 86 150 24Q153 0 160 0Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  pointer-events: none;
+}
+.film-roll .film-leader__holes {
+  position: absolute;
+  inset-inline: 0;
+  display: grid;
+  justify-items: center;
+  height: calc(var(--filmroll-frame) * 1.98 / 36);
+}
+.film-roll .film-leader__holes--top { top: calc(var(--filmroll-frame) * 2 / 36); }
+.film-roll .film-leader__holes--bottom { bottom: calc(var(--filmroll-frame) * 2 / 36); }
+.film-roll .film-leader__holes--top span:not(:last-child) { visibility: hidden; }
+.film-roll .contact-strip {
+  width: max-content;
+  min-width: 0;
+  flex: 1 0 auto;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: repeat(3, auto);
+  gap: calc(var(--filmroll-frame) * 1.52 / 36);
+  padding: calc(var(--filmroll-frame) * 2 / 36) calc(var(--filmroll-frame) * 3 / 36);
+  background: var(--filmroll-stock);
+  box-shadow: inset 0 1px 0 var(--filmroll-edge), inset 0 -1px 0 rgba(0, 0, 0, .35);
+}
+.film-roll .sprocket-row {
+  width: calc(100% + var(--filmroll-frame) * 6 / 36);
+  margin-inline: calc(var(--filmroll-frame) * -3 / 36);
+  min-width: 0;
+  height: calc(var(--filmroll-frame) * 1.98 / 36);
+  background-image: radial-gradient(ellipse calc(var(--filmroll-frame) * 1.4 / 36) 50%, var(--filmroll-hole) 98%, transparent 100%);
+  background-size: calc(var(--filmroll-frame) * 4.75 / 36) 100%;
+  background-position: left center;
+  background-repeat: repeat-x;
+}
+.film-roll .film-leader__holes span { width: calc(var(--filmroll-frame) * 2.8 / 36); height: 100%; border-radius: calc(var(--filmroll-frame) * .5 / 36); background: var(--filmroll-hole); }
+.film-roll .contact-strip__frames { display: flex; width: max-content; gap: calc(var(--filmroll-frame) * 2 / 36); }
+.film-roll .photo-frame {
+  position: relative;
+  display: block;
+  flex: 0 0 var(--filmroll-frame);
+  min-width: 0;
+  aspect-ratio: 1.5;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  background: var(--filmroll-stock);
+  outline: 1px solid var(--filmroll-edge);
+  outline-offset: -1px;
+}
+.film-roll .photo-frame--interactive { cursor: zoom-in; }
+.film-roll .photo-frame img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 380ms cubic-bezier(.16, 1, .3, 1), filter 380ms ease-out; }
+@media (hover: hover) {
+  .film-roll .photo-frame--interactive:hover img { transform: scale(1.035); filter: saturate(1.06); }
+}
+.film-roll .photo-frame--interactive:focus-visible { outline: 2px solid var(--filmroll-focus, #9b5039); outline-offset: 3px; }
+
+@container film-roll (max-width: 900px) {
+  .film-roll { --filmroll-frame: clamp(var(--filmroll-frame-min, 180px), calc(24.2125cqw - 33.25px), var(--filmroll-frame-max, 244px)); }
+}
+
+@container film-roll (max-width: 680px) {
+  .film-roll {
+    /* Fit two complete frames, the 19mm leader, 3mm inset and 2mm frame gap,
+       plus the actual rendered shell. Keep 12px spare at the outlet. */
+    --filmroll-frame: clamp(76px, calc((100cqw - var(--filmroll-gutter, 40px) - 12px) / (2 + 24 / 36 + var(--filmroll-shell-ratio))), 144px);
+  }
+}

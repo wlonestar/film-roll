@@ -1,0 +1,54 @@
+{
+  "modelRevision": "true-shell-v10",
+  "renderFrame": {
+    "width": 900,
+    "height": 1500
+  },
+  "crop": [
+    93,
+    74,
+    793,
+    1439
+  ],
+  "width": 700,
+  "height": 1365,
+  "coordinateSystem": "normalized image coordinates, origin top left",
+  "slit": {
+    "centerY": 0.543818885524631,
+    "topY": 0.19631687171293266,
+    "bottomY": 0.8913208993363293,
+    "leftX": -0.023138930797576906,
+    "rightX": 0.004580607329096113,
+    "centerX": -0.009279161734240397
+  },
+  "contentBounds": {
+    "left": 0.011428571428571429,
+    "top": 0.005860805860805861,
+    "right": 0.9885714285714285,
+    "bottom": 0.9941391941391942
+  },
+  "bodyCenter": [
+    0.51,
+    0.5349527355515477
+  ],
+  "topCapCenter": [
+    0.51,
+    0.11795032225249015
+  ],
+  "bottomCapCenter": [
+    0.51,
+    0.9519551324757027
+  ],
+  "physicalDimensionsMm": {
+    "bodyDiameter": 23.5,
+    "bodyHeight": 42,
+    "totalHeight": 48.2,
+    "slitHeight": 35,
+    "spindleOuterDiameter": 7.2,
+    "spindleInnerDiameter": 4.26,
+    "spindleHeight": 5.0,
+    "rimHeight": 2.0
+  },
+  "cameraElevationDegrees": 10,
+  "bytes": 54828
+}

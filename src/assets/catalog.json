@@ -1,0 +1,47 @@
+{
+  "modelRevision": "true-shell-v10",
+  "geometry": "./film-cartridge.geometry.json",
+  "description": "Unofficial representative label reconstructions; not exact packaging/year replicas.",
+  "cartridges": [
+    {
+      "id": "kodak-gold-200",
+      "name": "Kodak Gold 200",
+      "filename": "kodak-gold-200.webp",
+      "width": 700,
+      "height": 1365,
+      "bytes": 69212
+    },
+    {
+      "id": "kodak-portra-400",
+      "name": "Kodak Portra 400",
+      "filename": "kodak-portra-400.webp",
+      "width": 700,
+      "height": 1365,
+      "bytes": 66548
+    },
+    {
+      "id": "kodak-ektar-100",
+      "name": "Kodak Ektar 100",
+      "filename": "kodak-ektar-100.webp",
+      "width": 700,
+      "height": 1365,
+      "bytes": 69762
+    },
+    {
+      "id": "fuji-superia-400",
+      "name": "Fujicolor Superia X-TRA 400",
+      "filename": "fuji-superia-400.webp",
+      "width": 700,
+      "height": 1365,
+      "bytes": 55144
+    },
+    {
+      "id": "ilford-hp5-400",
+      "name": "Ilford HP5 Plus 400",
+      "filename": "ilford-hp5-400.webp",
+      "width": 700,
+      "height": 1365,
+      "bytes": 53912
+    }
+  ]
+}
