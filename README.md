@@ -4,7 +4,7 @@ A reusable React component that presents photographs as a scrollable 35mm contac
 
 ## Install
 
-The npm package is not published yet. After the initial release, install it with:
+Install from npm:
 
 ```sh
 npm install film-roll
