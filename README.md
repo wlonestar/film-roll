@@ -2,6 +2,33 @@
 
 A reusable React component that presents photographs as a scrollable 35mm contact sheet with a rendered film cartridge.
 
+## Preview
+
+### Desktop
+
+![Desktop photo archive using FilmRoll with a Kodak Gold 200 cartridge](https://raw.githubusercontent.com/wlonestar/film-roll/main/docs/screenshots/desktop-kodak-gold.png)
+
+### Cartridge options
+
+<table>
+  <tr>
+    <th>Fuji Superia 400</th>
+    <th>Light Notes</th>
+  </tr>
+  <tr>
+    <td><img src="https://raw.githubusercontent.com/wlonestar/film-roll/main/docs/screenshots/desktop-fuji-superia.png" alt="FilmRoll with the Fuji Superia 400 cartridge" width="420" /></td>
+    <td><img src="https://raw.githubusercontent.com/wlonestar/film-roll/main/docs/screenshots/desktop-light-notes.png" alt="FilmRoll with the Light Notes cartridge" width="420" /></td>
+  </tr>
+</table>
+
+### Mobile
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/wlonestar/film-roll/main/docs/screenshots/mobile-375.png" alt="FilmRoll responsive layout at a 375-pixel viewport width" width="335" />
+</p>
+
+These captures show the component inside an example photo archive. The surrounding site and sample photographs are not part of this package.
+
 ## Install
 
 Install from npm:
