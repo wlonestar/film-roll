@@ -94,6 +94,12 @@ For custom shells, provide `{ src, geometry }`. The geometry must describe the s
 
 The package stylesheet is separate so applications can choose where to import it. The component uses plain CSS, works with Next.js and Vite, and does not depend on `next/image` or a runtime 3D engine. It supports touch scrolling, wheel scrolling, keyboard focus, and custom frame sizing through CSS variables such as `--filmroll-frame-min`, `--filmroll-frame-max`, and `--filmroll-gutter`. This is a bundler-targeted package; Vite SSR consumers should include `film-roll` in `ssr.noExternal` so Vite transforms its ESM and WebP imports.
 
+## Publishing
+
+GitHub Actions publishes only when a matching version tag (`v*`) is pushed. Before the first automated release, configure npm's Trusted Publishing for `film-roll`: provider `GitHub Actions`, user `wlonestar`, repository `film-roll`, workflow filename `publish.yml`, and permission for direct `npm publish`. Leave the environment unset to match the workflow.
+
+For each release, update the version in `package.json` and `package-lock.json`, push the commit, then push the matching tag. For example, version `0.1.1` is released with tag `v0.1.1`. The workflow verifies the match, builds and checks the tarball, then publishes through OIDC; no long-lived `NPM_TOKEN` is needed.
+
 ## Development
 
 From the repository root:
