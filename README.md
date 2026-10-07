@@ -57,29 +57,30 @@ const frames = [
   { src: "/photos/coast.jpg", alt: "Low waves along the coast" },
 ];
 
-export function ContactSheet({
-  openViewer,
-}: {
-  openViewer: (index: number, trigger: HTMLElement) => void;
-}) {
+export function ContactSheet() {
   return (
     <FilmRoll
       frames={frames}
       cartridge="kodak-gold-200"
       ariaLabel="Browse the photo contact sheet"
-      onFrameClick={openViewer}
     />
   );
 }
 ```
 
-`onFrameClick` is optional. Without it, frames are rendered as non-interactive images. Use `previewSrc` to show a smaller contact-sheet thumbnail while keeping `src` as the full-size image for the host viewer.
+Clicking a frame opens the built-in full-screen viewer. It displays the original `src` at its natural aspect ratio, supports keyboard and touch navigation, and shows optional exposure details. Use `previewSrc` for a smaller contact-sheet thumbnail while keeping `src` as the original.
+
+To take over frame clicks with a host viewer, pass `onFrameClick`. When provided, it replaces the built-in viewer and receives the frame index and trigger button:
+
+```tsx
+<FilmRoll frames={frames} onFrameClick={(index, trigger) => openViewer(index, trigger)} />
+```
 
 ## API
 
-- `frames: readonly FilmRollFrame[]`, each frame has `src`, `alt`, and optional `previewSrc`. A roll accepts up to `filmRollMaxFrames` (72) frames; split larger collections across multiple rolls.
+- `frames: readonly FilmRollFrame[]`, each frame has `src`, `alt`, optional `previewSrc`, and optional `exif` metadata (`camera`, `focalLength`, `exposureTime`, `aperture`, `iso`). A roll accepts up to `filmRollMaxFrames` (72) frames; split larger collections across multiple rolls.
 - `cartridge?: FilmRollCartridgeId | FilmRollCartridge`, defaults to `light-notes`.
-- `onFrameClick?: (index: number, trigger: HTMLElement) => void`.
+- `onFrameClick?: (index: number, trigger: HTMLElement) => void`, replaces the default viewer when supplied.
 - `ariaLabel?: string`, label for the horizontally scrollable strip.
 - `className?: string`, appended to the root `.film-roll` element.
 - `filmRollCartridges`, `filmRollGeometry`, `filmRollMaxFrames`, and the related types are exported for integration and custom shells.
@@ -92,7 +93,7 @@ For custom shells, provide `{ src, geometry }`. The geometry must describe the s
 
 ## Styling and behavior
 
-The package stylesheet is separate so applications can choose where to import it. The component uses plain CSS, works with Next.js and Vite, and does not depend on `next/image` or a runtime 3D engine. It supports touch scrolling, wheel scrolling, keyboard focus, and custom frame sizing through CSS variables such as `--filmroll-frame-min`, `--filmroll-frame-max`, and `--filmroll-gutter`. This is a bundler-targeted package; Vite SSR consumers should include `film-roll` in `ssr.noExternal` so Vite transforms its ESM and WebP imports.
+The package stylesheet is separate so applications can choose where to import it. The component uses plain CSS, works with Next.js and Vite, and does not depend on `next/image` or a runtime 3D engine. It supports touch scrolling, wheel scrolling, keyboard focus, and custom frame sizing through CSS variables such as `--filmroll-frame-min`, `--filmroll-frame-max`, and `--filmroll-gutter`. Theme the built-in viewer on the `.film-roll` element with `--filmroll-viewer-background`, `--filmroll-viewer-ink`, `--filmroll-viewer-emulsion`, `--filmroll-viewer-print`, `--filmroll-viewer-muted`, `--filmroll-viewer-accent`, and `--filmroll-viewer-mono`. This is a bundler-targeted package; Vite SSR consumers should include `film-roll` in `ssr.noExternal` so Vite transforms its ESM and WebP imports.
 
 ## Publishing
 
@@ -106,7 +107,7 @@ From the repository root:
 
 ```sh
 npm install
-npm run build
+npm test
 npm pack --dry-run
 ```
 
