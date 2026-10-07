@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useRef, useState, type KeyboardEvent, type TouchEvent } from "react";
 import type { FilmRollFrame } from "./FilmRoll.js";
+import { lockDocumentScroll } from "./document-scroll-lock.js";
 import { getNextViewerIndex, getSafeViewerIndex } from "./viewer-state.js";
 
 function getExifValues(frame: FilmRollFrame) {
@@ -46,9 +47,11 @@ export function FilmRollViewer({
     const dialog = dialogRef.current;
     if (!dialog) return;
     if (!dialog.open) dialog.showModal();
+    const releaseScrollLock = lockDocumentScroll(document);
     closeButtonRef.current?.focus({ preventScroll: true });
     return () => {
       if (dialog.open) dialog.close();
+      releaseScrollLock();
     };
   }, []);
 

@@ -68,7 +68,7 @@ export function ContactSheet() {
 }
 ```
 
-Clicking a frame opens the built-in full-screen viewer. It displays the original `src` at its natural aspect ratio, supports keyboard and touch navigation, and shows optional exposure details. Use `previewSrc` for a smaller contact-sheet thumbnail while keeping `src` as the original.
+Clicking a frame opens the built-in full-screen viewer. It displays the original `src` at its natural aspect ratio, locks background scrolling until closed, supports keyboard and touch navigation, and shows optional exposure details. Use `previewSrc` for a smaller contact-sheet thumbnail while keeping `src` as the original.
 
 To take over frame clicks with a host viewer, pass `onFrameClick`. When provided, it replaces the built-in viewer and receives the frame index and trigger button:
 
