@@ -96,7 +96,7 @@ The package stylesheet is separate so applications can choose where to import it
 
 ## Publishing
 
-GitHub Actions publishes only when a matching version tag (`v*`) is pushed. Before the first automated release, configure npm's Trusted Publishing for `film-roll`: provider `GitHub Actions`, user `wlonestar`, repository `film-roll`, workflow filename `publish.yml`, and permission for direct `npm publish`. Leave the environment unset to match the workflow.
+GitHub Actions publishes only when a matching version tag (`v*`) is pushed. This package is configured for npm Trusted Publishing with provider `GitHub Actions`, user `wlonestar`, repository `film-roll`, and workflow filename `publish.yml`; the workflow has direct `npm publish` permission and does not use an environment.
 
 For each release, update the version in `package.json` and `package-lock.json`, push the commit, then push the matching tag. For example, version `0.1.1` is released with tag `v0.1.1`. The workflow verifies the match, builds and checks the tarball, then publishes through OIDC; no long-lived `NPM_TOKEN` is needed.
 

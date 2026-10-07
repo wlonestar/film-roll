@@ -11,6 +11,10 @@
   --filmroll-stock: var(--filmroll-stock-color, #242526);
   --filmroll-edge: var(--filmroll-edge-color, rgba(224, 226, 228, .18));
   --filmroll-hole: var(--filmroll-hole-color, #eee7d9);
+  --filmroll-hole-width: calc(var(--filmroll-frame) * 2.8 / 36);
+  --filmroll-hole-height: calc(var(--filmroll-frame) * 1.98 / 36);
+  --filmroll-hole-radius: calc(var(--filmroll-frame) * .5 / 36);
+  --filmroll-hole-pitch: calc(var(--filmroll-frame) * 4.75 / 36);
   --filmroll-stock-height: calc(var(--filmroll-frame) * 35 / 36);
   --filmroll-shell-ratio: calc(35 / 36 * var(--filmroll-aspect) / var(--filmroll-slot-height));
   --filmroll-shell-height: calc(var(--filmroll-stock-height) / var(--filmroll-slot-height));
@@ -70,7 +74,7 @@
   inset-inline: 0;
   display: grid;
   justify-items: center;
-  height: calc(var(--filmroll-frame) * 1.98 / 36);
+  height: var(--filmroll-hole-height);
 }
 .film-roll .film-leader__holes--top { top: calc(var(--filmroll-frame) * 2 / 36); }
 .film-roll .film-leader__holes--bottom { bottom: calc(var(--filmroll-frame) * 2 / 36); }
@@ -87,17 +91,24 @@
   background: var(--filmroll-stock);
   box-shadow: inset 0 1px 0 var(--filmroll-edge), inset 0 -1px 0 rgba(0, 0, 0, .35);
 }
+/* Rounded-rectangle KS perforations: 2.8 × 1.98 mm, 0.5 mm corners, 4.75 mm pitch. */
 .film-roll .sprocket-row {
   width: calc(100% + var(--filmroll-frame) * 6 / 36);
   margin-inline: calc(var(--filmroll-frame) * -3 / 36);
   min-width: 0;
-  height: calc(var(--filmroll-frame) * 1.98 / 36);
-  background-image: radial-gradient(ellipse calc(var(--filmroll-frame) * 1.4 / 36) 50%, var(--filmroll-hole) 98%, transparent 100%);
-  background-size: calc(var(--filmroll-frame) * 4.75 / 36) 100%;
-  background-position: left center;
-  background-repeat: repeat-x;
+  height: var(--filmroll-hole-height);
+  background-color: var(--filmroll-hole);
+  background-image: none;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%204.75%201.98'%3E%3Crect%20x='.975'%20y='0'%20width='2.8'%20height='1.98'%20rx='.5'%20fill='white'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%204.75%201.98'%3E%3Crect%20x='.975'%20y='0'%20width='2.8'%20height='1.98'%20rx='.5'%20fill='white'/%3E%3C/svg%3E");
+  -webkit-mask-size: var(--filmroll-hole-pitch) 100%;
+  mask-size: var(--filmroll-hole-pitch) 100%;
+  -webkit-mask-position: left center;
+  mask-position: left center;
+  -webkit-mask-repeat: repeat-x;
+  mask-repeat: repeat-x;
 }
-.film-roll .film-leader__holes span { width: calc(var(--filmroll-frame) * 2.8 / 36); height: 100%; border-radius: calc(var(--filmroll-frame) * .5 / 36); background: var(--filmroll-hole); }
+.film-roll .film-leader__holes span { width: var(--filmroll-hole-width); height: 100%; border-radius: var(--filmroll-hole-radius); background: var(--filmroll-hole); }
 .film-roll .contact-strip__frames { display: flex; width: max-content; gap: calc(var(--filmroll-frame) * 2 / 36); }
 .film-roll .photo-frame {
   position: relative;
