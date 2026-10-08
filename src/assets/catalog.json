@@ -1,7 +1,7 @@
 {
   "modelRevision": "true-shell-v10",
   "geometry": "./film-cartridge.geometry.json",
-  "description": "Unofficial representative label reconstructions; not exact packaging/year replicas.",
+  "description": "Unofficial label reconstructions based on photos of actual 135 cartridges; not licensed artwork or exact packaging/year replicas.",
   "cartridges": [
     {
       "id": "kodak-gold-200",
@@ -9,7 +9,7 @@
       "filename": "kodak-gold-200.webp",
       "width": 700,
       "height": 1365,
-      "bytes": 69212
+      "bytes": 49820
     },
     {
       "id": "kodak-portra-400",
@@ -17,7 +17,7 @@
       "filename": "kodak-portra-400.webp",
       "width": 700,
       "height": 1365,
-      "bytes": 66548
+      "bytes": 47966
     },
     {
       "id": "kodak-ektar-100",
@@ -25,7 +25,7 @@
       "filename": "kodak-ektar-100.webp",
       "width": 700,
       "height": 1365,
-      "bytes": 69762
+      "bytes": 45204
     },
     {
       "id": "fuji-superia-400",
@@ -33,7 +33,7 @@
       "filename": "fuji-superia-400.webp",
       "width": 700,
       "height": 1365,
-      "bytes": 55144
+      "bytes": 52600
     },
     {
       "id": "ilford-hp5-400",
@@ -41,7 +41,7 @@
       "filename": "ilford-hp5-400.webp",
       "width": 700,
       "height": 1365,
-      "bytes": 53912
+      "bytes": 43092
     }
   ]
 }

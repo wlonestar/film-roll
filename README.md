@@ -6,25 +6,16 @@ A reusable React component that presents photographs as a scrollable 35mm contac
 
 ### Desktop
 
-![Desktop photo archive using FilmRoll with a Kodak Gold 200 cartridge](https://raw.githubusercontent.com/wlonestar/film-roll/main/docs/screenshots/desktop-kodak-gold.png)
+![Desktop photo archive using FilmRoll with a redesigned Kodak Gold 200 cartridge](https://raw.githubusercontent.com/wlonestar/film-roll/main/docs/screenshots/desktop-kodak-gold.png)
 
 ### Cartridge options
 
-<table>
-  <tr>
-    <th>Fuji Superia 400</th>
-    <th>Light Notes</th>
-  </tr>
-  <tr>
-    <td><img src="https://raw.githubusercontent.com/wlonestar/film-roll/main/docs/screenshots/desktop-fuji-superia.png" alt="FilmRoll with the Fuji Superia 400 cartridge" width="420" /></td>
-    <td><img src="https://raw.githubusercontent.com/wlonestar/film-roll/main/docs/screenshots/desktop-light-notes.png" alt="FilmRoll with the Light Notes cartridge" width="420" /></td>
-  </tr>
-</table>
+![Five 3D film canisters with labels individually reconstructed from photos of the actual Kodak Gold 200, Portra 400, Ektar 100, Fujicolor Superia X-TRA 400, and Ilford HP5 Plus 400 cartridges](https://raw.githubusercontent.com/wlonestar/film-roll/main/docs/screenshots/cartridge-presets.jpg)
 
 ### Mobile
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/wlonestar/film-roll/main/docs/screenshots/mobile-375.png" alt="FilmRoll responsive layout at a 375-pixel viewport width" width="335" />
+  <img src="https://raw.githubusercontent.com/wlonestar/film-roll/main/docs/screenshots/mobile-375.png" alt="Mobile FilmRoll layout with the redesigned Kodak Gold 200 cartridge" width="335" />
 </p>
 
 These captures show the component inside an example photo archive. The surrounding site and sample photographs are not part of this package.
@@ -87,7 +78,7 @@ To take over frame clicks with a host viewer, pass `onFrameClick`. When provided
 
 Built-in cartridges: `light-notes`, `kodak-gold-200`, `kodak-portra-400`, `kodak-ektar-100`, `fuji-superia-400`, and `ilford-hp5-400`.
 
-The branded shells are independent, stylized reconstructions—not official artwork or exact packaging replicas. Brand names and marks remain the property of their respective owners; no affiliation or endorsement is implied.
+The five branded labels are individually reconstructed from photographs of actual 135 cartridges, not retail-box artwork. They are unofficial interpretations of the pictured editions, not licensed artwork or exact packaging replicas. Brand names and marks remain the property of their respective owners; no affiliation or endorsement is implied.
 
 For custom shells, provide `{ src, geometry }`. The geometry must describe the same image crop and film slit as the rendered asset so the live strip lines up. See the exported `FilmRollGeometry` type for the required metrics.
 
