@@ -3,8 +3,9 @@ import ektarAsset from "./assets/kodak-ektar-100.webp";
 import superiaAsset from "./assets/fuji-superia-400.webp";
 import hp5Asset from "./assets/ilford-hp5-400.webp";
 import goldAsset from "./assets/kodak-gold-200.webp";
+import ultramaxAsset from "./assets/kodak-ultramax-400.webp";
 import portraAsset from "./assets/kodak-portra-400.webp";
-import lightNotesAsset from "./assets/film-cartridge.webp";
+import lightNotesAsset from "./assets/light-notes.webp";
 
 /** Max 72 half-frame exposures on one 135 film roll. */
 export const filmRollMaxFrames = 72;
@@ -53,6 +54,8 @@ export function filmRollAssetUrl(asset: string | { src: string }): string {
 export const filmRollCartridges = {
   "light-notes": { name: "Light Notes 135", src: filmRollAssetUrl(lightNotesAsset) },
   "kodak-gold-200": { name: "Kodak Gold 200", src: filmRollAssetUrl(goldAsset) },
+  "kodak-ultramax-400": { name: "Kodak UltraMax 400", src: filmRollAssetUrl(ultramaxAsset) },
+  /** Retained for compatibility; not one of the five current reference presets. */
   "kodak-portra-400": { name: "Kodak Portra 400", src: filmRollAssetUrl(portraAsset) },
   "kodak-ektar-100": { name: "Kodak Ektar 100", src: filmRollAssetUrl(ektarAsset) },
   "fuji-superia-400": { name: "Fujicolor Superia X-TRA 400", src: filmRollAssetUrl(superiaAsset) },

@@ -10,7 +10,7 @@ A reusable React component that presents photographs as a scrollable 35mm contac
 
 ### Cartridge options
 
-![Five 3D film canisters with labels individually reconstructed from photos of the actual Kodak Gold 200, Portra 400, Ektar 100, Fujicolor Superia X-TRA 400, and Ilford HP5 Plus 400 cartridges](https://raw.githubusercontent.com/wlonestar/film-roll/main/docs/screenshots/cartridge-presets.jpg)
+![Five 3D film canisters with labels individually reconstructed from photos of actual Kodak UltraMax 400, Gold 200, Ektar 100, Fujicolor Superia X-TRA 400, and Ilford HP5 Plus 400 cartridges](https://raw.githubusercontent.com/wlonestar/film-roll/main/docs/screenshots/cartridge-presets.jpg)
 
 ### Mobile
 
@@ -76,7 +76,7 @@ To take over frame clicks with a host viewer, pass `onFrameClick`. When provided
 - `className?: string`, appended to the root `.film-roll` element.
 - `filmRollCartridges`, `filmRollGeometry`, `filmRollMaxFrames`, and the related types are exported for integration and custom shells.
 
-Built-in cartridges: `light-notes`, `kodak-gold-200`, `kodak-portra-400`, `kodak-ektar-100`, `fuji-superia-400`, and `ilford-hp5-400`.
+Current branded presets: `kodak-ultramax-400`, `kodak-gold-200`, `kodak-ektar-100`, `fuji-superia-400`, and `ilford-hp5-400`. `light-notes` remains the default example shell; `kodak-portra-400` remains available for compatibility but is not one of the five refreshed reference presets. The previously exported `film-roll/assets/film-cartridge.webp` path remains a Light Notes alias; the blank shell is available as `film-roll/assets/film-cartridge-shell.webp`.
 
 The five branded labels are individually reconstructed from photographs of actual 135 cartridges, not retail-box artwork. They are unofficial interpretations of the pictured editions, not licensed artwork or exact packaging replicas. Brand names and marks remain the property of their respective owners; no affiliation or endorsement is implied.
 

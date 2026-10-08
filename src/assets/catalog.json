@@ -1,47 +1,63 @@
 {
-  "modelRevision": "true-shell-v10",
+  "modelRevision": "true-shell-v15",
   "geometry": "./film-cartridge.geometry.json",
-  "description": "Unofficial label reconstructions based on photos of actual 135 cartridges; not licensed artwork or exact packaging/year replicas.",
+  "description": "Original label interpretations built from individual wrap textures; not licensed artwork or exact packaging/year replicas.",
   "cartridges": [
+    {
+      "id": "light-notes",
+      "name": "Light Notes 135",
+      "filename": "light-notes.webp",
+      "width": 686,
+      "height": 1365,
+      "bytes": 51262
+    },
+    {
+      "id": "kodak-ultramax-400",
+      "name": "Kodak UltraMax 400",
+      "filename": "kodak-ultramax-400.webp",
+      "width": 686,
+      "height": 1365,
+      "bytes": 55070
+    },
     {
       "id": "kodak-gold-200",
       "name": "Kodak Gold 200",
       "filename": "kodak-gold-200.webp",
-      "width": 700,
+      "width": 686,
       "height": 1365,
-      "bytes": 49820
-    },
-    {
-      "id": "kodak-portra-400",
-      "name": "Kodak Portra 400",
-      "filename": "kodak-portra-400.webp",
-      "width": 700,
-      "height": 1365,
-      "bytes": 47966
+      "bytes": 49782
     },
     {
       "id": "kodak-ektar-100",
       "name": "Kodak Ektar 100",
       "filename": "kodak-ektar-100.webp",
-      "width": 700,
+      "width": 686,
       "height": 1365,
-      "bytes": 45204
+      "bytes": 45764
     },
     {
       "id": "fuji-superia-400",
       "name": "Fujicolor Superia X-TRA 400",
       "filename": "fuji-superia-400.webp",
-      "width": 700,
+      "width": 686,
       "height": 1365,
-      "bytes": 52600
+      "bytes": 50106
     },
     {
       "id": "ilford-hp5-400",
       "name": "Ilford HP5 Plus 400",
       "filename": "ilford-hp5-400.webp",
-      "width": 700,
+      "width": 686,
       "height": 1365,
-      "bytes": 43092
+      "bytes": 42404
+    },
+    {
+      "id": "kodak-portra-400",
+      "name": "Kodak Portra 400",
+      "filename": "kodak-portra-400.webp",
+      "width": 686,
+      "height": 1365,
+      "bytes": 43074
     }
   ]
 }

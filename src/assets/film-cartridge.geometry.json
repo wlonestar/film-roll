@@ -1,42 +1,42 @@
 {
-  "modelRevision": "true-shell-v10",
+  "modelRevision": "true-shell-v15",
   "renderFrame": {
     "width": 900,
     "height": 1500
   },
   "crop": [
-    93,
+    107,
     74,
     793,
     1439
   ],
-  "width": 700,
+  "width": 686,
   "height": 1365,
   "coordinateSystem": "normalized image coordinates, origin top left",
   "slit": {
-    "centerY": 0.543818885524631,
-    "topY": 0.19631687171293266,
-    "bottomY": 0.8913208993363293,
-    "leftX": -0.023138930797576906,
-    "rightX": 0.004580607329096113,
-    "centerX": -0.009279161734240397
+    "centerY": 0.540732846853934,
+    "topY": 0.19918798160203646,
+    "bottomY": 0.8822777121058314,
+    "leftX": 0.0314096396588028,
+    "rightX": 0.033728655677495126,
+    "centerX": 0.03256914766814896
   },
   "contentBounds": {
-    "left": 0.011428571428571429,
+    "left": 0.011661807580174927,
     "top": 0.005860805860805861,
-    "right": 0.9885714285714285,
+    "right": 0.9883381924198251,
     "bottom": 0.9941391941391942
   },
   "bodyCenter": [
-    0.51,
+    0.5,
     0.5349527355515477
   ],
   "topCapCenter": [
-    0.51,
+    0.5,
     0.11795032225249015
   ],
   "bottomCapCenter": [
-    0.51,
+    0.5,
     0.9519551324757027
   ],
   "physicalDimensionsMm": {
@@ -50,5 +50,6 @@
     "rimHeight": 2.0
   },
   "cameraElevationDegrees": 10,
-  "bytes": 54828
+  "bytes": 31458,
+  "sha256": "420790977c7cac3b5931d6dd98b6b27ff06678ab3384564d6572b25a71083b80"
 }
