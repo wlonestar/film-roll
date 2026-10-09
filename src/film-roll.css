@@ -114,6 +114,9 @@
   position: relative;
   display: block;
   flex: 0 0 var(--filmroll-frame);
+  /* WebKit needs a definite width when sizing the max-content flex row;
+     flex-basis alone contributes no photo width to that intrinsic size. */
+  width: var(--filmroll-frame);
   min-width: 0;
   aspect-ratio: 1.5;
   padding: 0;
