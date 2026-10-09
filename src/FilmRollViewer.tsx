@@ -1,9 +1,23 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, type KeyboardEvent, type TouchEvent } from "react";
+import {
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type CSSProperties,
+  type KeyboardEvent,
+} from "react";
 import type { FilmRollFrame } from "./FilmRoll.js";
 import { lockDocumentScroll } from "./document-scroll-lock.js";
 import { getNextViewerIndex, getSafeViewerIndex } from "./viewer-state.js";
+import {
+  beginViewerGesture,
+  resolveViewerGesture,
+  updateViewerGesture,
+  viewerDragOffset,
+  type ViewerGesture,
+} from "./viewer-gesture.js";
 
 function getExifValues(frame: FilmRollFrame) {
   const exif = frame.exif;
@@ -22,6 +36,14 @@ function getExifValues(frame: FilmRollFrame) {
   ];
 }
 
+function findTouch(list: TouchList, id: number): Touch | null {
+  for (let index = 0; index < list.length; index += 1) {
+    const touch = list[index];
+    if (touch && touch.identifier === id) return touch;
+  }
+  return null;
+}
+
 export function FilmRollViewer({
   frames,
   initialIndex,
@@ -33,11 +55,15 @@ export function FilmRollViewer({
 }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
-  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const gestureRef = useRef<ViewerGesture | null>(null);
   const [activeIndex, setActiveIndex] = useState(initialIndex);
+  const [enterDirection, setEnterDirection] = useState(0);
   const titleId = `film-roll-viewer-${useId()}`;
   const currentIndex = getSafeViewerIndex(activeIndex, frames.length);
   const activeFrame = currentIndex === null ? undefined : frames[currentIndex];
+  const frameCount = frames.length;
 
   useEffect(() => {
     if (currentIndex !== null) setActiveIndex(currentIndex);
@@ -56,9 +82,82 @@ export function FilmRollViewer({
   }, []);
 
   const moveFrame = (direction: number) => {
-    if (frames.length < 2) return;
-    setActiveIndex((current) => getNextViewerIndex(current, direction, frames.length) ?? 0);
+    if (frameCount < 2) return;
+    setEnterDirection(direction);
+    setActiveIndex((current) => getNextViewerIndex(current, direction, frameCount) ?? 0);
   };
+
+  /* The gesture covers the whole stage, not just the photo: on a phone the frame
+     fills a fraction of the viewport, so swiping the surrounding space has to work
+     too. Native listeners are used because React registers `touchmove` as passive,
+     which cannot `preventDefault()` the browser's own handling of the drag. */
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!stage || frameCount < 2) return;
+
+    const writeTrack = (offset: number, animate: boolean) => {
+      const track = trackRef.current;
+      if (!track) return;
+      track.style.transition = animate ? "transform 320ms cubic-bezier(.16, 1, .3, 1)" : "none";
+      track.style.transform = offset === 0 && !animate ? "" : `translateX(${offset}px)`;
+      track.style.willChange = animate ? "" : "transform";
+    };
+
+    const onTouchStart = (event: TouchEvent) => {
+      // One finger, and not one already spent on a control such as the arrows or close.
+      if (gestureRef.current || event.touches.length !== 1) return;
+      const target = event.target instanceof Element ? event.target : null;
+      if (target?.closest("button, a, input, select, textarea")) return;
+      const touch = event.touches[0];
+      if (!touch) return;
+      gestureRef.current = beginViewerGesture(touch.identifier, touch.clientX, touch.clientY, event.timeStamp);
+      writeTrack(0, false);
+    };
+
+    const onTouchMove = (event: TouchEvent) => {
+      const gesture = gestureRef.current;
+      if (!gesture) return;
+      const touch = findTouch(event.touches, gesture.id) ?? findTouch(event.changedTouches, gesture.id);
+      if (!touch) return;
+      const moved = updateViewerGesture(gesture, touch.clientX, touch.clientY);
+      gestureRef.current = moved;
+      if (moved.axis !== "horizontal") return;
+      // Claim the drag so the browser cannot turn it into a scroll and cancel the touch.
+      if (event.cancelable) event.preventDefault();
+      writeTrack(viewerDragOffset(moved.deltaX, stage.clientWidth * 0.5), false);
+    };
+
+    const onTouchEnd = (event: TouchEvent) => {
+      const gesture = gestureRef.current;
+      if (!gesture) return;
+      const touch = findTouch(event.changedTouches, gesture.id);
+      gestureRef.current = null;
+      const released = touch
+        ? updateViewerGesture(gesture, touch.clientX, touch.clientY)
+        : gesture;
+      writeTrack(0, true);
+      const direction = resolveViewerGesture(released, event.timeStamp);
+      if (direction !== 0) moveFrame(direction);
+    };
+
+    const onTouchCancel = () => {
+      if (!gestureRef.current) return;
+      gestureRef.current = null;
+      writeTrack(0, true);
+    };
+
+    stage.addEventListener("touchstart", onTouchStart, { passive: true });
+    stage.addEventListener("touchmove", onTouchMove, { passive: false });
+    stage.addEventListener("touchend", onTouchEnd, { passive: true });
+    stage.addEventListener("touchcancel", onTouchCancel, { passive: true });
+    return () => {
+      gestureRef.current = null;
+      stage.removeEventListener("touchstart", onTouchStart);
+      stage.removeEventListener("touchmove", onTouchMove);
+      stage.removeEventListener("touchend", onTouchEnd);
+      stage.removeEventListener("touchcancel", onTouchCancel);
+    };
+  }, [frameCount]);
 
   const handleKeyDown = (event: KeyboardEvent<HTMLDialogElement>) => {
     if (event.key === "ArrowLeft") {
@@ -70,26 +169,11 @@ export function FilmRollViewer({
     }
   };
 
-  const handleTouchStart = (event: TouchEvent<HTMLElement>) => {
-    const touch = event.changedTouches[0];
-    touchStartRef.current = touch ? { x: touch.clientX, y: touch.clientY } : null;
-  };
-
-  const handleTouchEnd = (event: TouchEvent<HTMLElement>) => {
-    const start = touchStartRef.current;
-    const end = event.changedTouches[0];
-    touchStartRef.current = null;
-    if (!start || !end) return;
-
-    const deltaX = end.clientX - start.x;
-    const deltaY = end.clientY - start.y;
-    if (Math.abs(deltaX) > 46 && Math.abs(deltaX) > Math.abs(deltaY) * 1.15) {
-      moveFrame(deltaX < 0 ? 1 : -1);
-    }
-  };
-
   if (currentIndex === null || !activeFrame) return null;
   const exifValues = getExifValues(activeFrame);
+  const enterStyle = {
+    "--filmroll-frame-enter-x": enterDirection > 0 ? "6%" : enterDirection < 0 ? "-6%" : "0px",
+  } as CSSProperties;
 
   return (
     <dialog
@@ -120,7 +204,7 @@ export function FilmRollViewer({
           ×
         </button>
 
-        <div className="film-roll-viewer__stage">
+        <div className="film-roll-viewer__stage" ref={stageRef}>
           {frames.length > 1 && (
             <button
               className="film-roll-viewer__step film-roll-viewer__step--prev"
@@ -131,27 +215,23 @@ export function FilmRollViewer({
               ←
             </button>
           )}
-          <figure
-            className="film-roll-viewer__frame"
-            key={currentIndex}
-            onTouchStart={handleTouchStart}
-            onTouchEnd={handleTouchEnd}
-            onTouchCancel={() => { touchStartRef.current = null; }}
-          >
-            {exifValues && (
-              <dl className="film-roll-viewer__printing" aria-label="Photo information">
-                {exifValues.map(({ label, value }) => (
-                  <div key={label}>
-                    <dt className="film-roll-viewer__sr-only">{label}</dt>
-                    <dd>{value}</dd>
-                  </div>
-                ))}
-              </dl>
-            )}
-            <div className="film-roll-viewer__image">
-              <img src={activeFrame.src} alt={activeFrame.alt} decoding="async" draggable={false} />
-            </div>
-          </figure>
+          <div className="film-roll-viewer__track" ref={trackRef}>
+            <figure className="film-roll-viewer__frame" key={currentIndex} style={enterStyle}>
+              {exifValues && (
+                <dl className="film-roll-viewer__printing" aria-label="Photo information">
+                  {exifValues.map(({ label, value }) => (
+                    <div key={label}>
+                      <dt className="film-roll-viewer__sr-only">{label}</dt>
+                      <dd>{value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              )}
+              <div className="film-roll-viewer__image">
+                <img src={activeFrame.src} alt={activeFrame.alt} decoding="async" draggable={false} />
+              </div>
+            </figure>
+          </div>
           {frames.length > 1 && (
             <button
               className="film-roll-viewer__step film-roll-viewer__step--next"

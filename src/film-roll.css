@@ -216,7 +216,18 @@
   padding: 56px 14px max(28px, env(safe-area-inset-bottom));
   touch-action: pan-y;
 }
+/* Carries the drag transform separately: the frame's `animation-fill-mode: both`
+   keeps overriding any inline transform set on the frame itself. */
+.film-roll .film-roll-viewer__track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  touch-action: pan-y;
+}
 .film-roll .film-roll-viewer__frame {
+  --filmroll-frame-enter-x: 0px;
   width: fit-content;
   max-width: min(100%, 1240px);
   max-height: calc(100vh - 132px);
@@ -228,7 +239,10 @@
   box-shadow: 0 24px 48px rgba(30, 28, 23, .16), 0 3px 8px rgba(30, 28, 23, .12);
   animation: film-roll-frame-enter 240ms cubic-bezier(.16, 1, .3, 1) both;
 }
-@keyframes film-roll-frame-enter { from { opacity: 0; transform: scale(.985); } to { opacity: 1; transform: scale(1); } }
+@keyframes film-roll-frame-enter {
+  from { opacity: 0; transform: translateX(var(--filmroll-frame-enter-x)) scale(.985); }
+  to { opacity: 1; transform: translateX(0) scale(1); }
+}
 .film-roll .film-roll-viewer__printing {
   width: 100%;
   display: flex;
@@ -262,6 +276,12 @@
   max-height: calc(100vh - 190px);
   max-height: calc(100dvh - 190px);
   object-fit: contain;
+  /* iOS otherwise answers a drag on the photo with an image drag or long-press
+     callout, both of which cancel the touch before the swipe can commit. */
+  -webkit-touch-callout: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 .film-roll .film-roll-viewer__step {
   position: absolute;
