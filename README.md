@@ -4,9 +4,15 @@ A reusable React component that presents photographs as a scrollable 35mm contac
 
 ## Preview
 
+[Live demo](https://film-roll.pages.dev)
+
 ### Desktop
 
 ![Desktop photo archive using FilmRoll with a redesigned Kodak Gold 200 cartridge](https://raw.githubusercontent.com/wlonestar/film-roll/main/docs/screenshots/desktop-kodak-gold.png)
+
+### Photo viewer
+
+![FilmRoll full-screen photo viewer with navigation controls and exposure details](https://raw.githubusercontent.com/wlonestar/film-roll/main/docs/screenshots/photo-viewer.png)
 
 ### Cartridge options
 
@@ -81,25 +87,3 @@ Current branded presets: `kodak-ultramax-400`, `kodak-gold-200`, `kodak-ektar-10
 The five branded labels are individually reconstructed from photographs of actual 135 cartridges, not retail-box artwork. They are unofficial interpretations of the pictured editions, not licensed artwork or exact packaging replicas. Brand names and marks remain the property of their respective owners; no affiliation or endorsement is implied.
 
 For custom shells, provide `{ src, geometry }`. The geometry must describe the same image crop and film slit as the rendered asset so the live strip lines up. See the exported `FilmRollGeometry` type for the required metrics.
-
-## Styling and behavior
-
-The package stylesheet is separate so applications can choose where to import it. The component uses plain CSS, works with Next.js and Vite, and does not depend on `next/image` or a runtime 3D engine. It supports touch scrolling, wheel scrolling, keyboard focus, and custom frame sizing through CSS variables such as `--filmroll-frame-min`, `--filmroll-frame-max`, and `--filmroll-gutter`. Theme the built-in viewer on the `.film-roll` element with `--filmroll-viewer-background`, `--filmroll-viewer-ink`, `--filmroll-viewer-emulsion`, `--filmroll-viewer-print`, `--filmroll-viewer-muted`, `--filmroll-viewer-accent`, and `--filmroll-viewer-mono`. This is a bundler-targeted package; Vite SSR consumers should include `film-roll` in `ssr.noExternal` so Vite transforms its ESM and WebP imports.
-
-## Publishing
-
-GitHub Actions publishes only when a matching version tag (`v*`) is pushed. This package is configured for npm Trusted Publishing with provider `GitHub Actions`, user `wlonestar`, repository `film-roll`, and workflow filename `publish.yml`; the workflow has direct `npm publish` permission and does not use an environment.
-
-For each release, update the version in `package.json` and `package-lock.json`, push the commit, then push the matching tag. For example, version `0.1.1` is released with tag `v0.1.1`. The workflow verifies the match, builds and checks the tarball, then publishes through OIDC; no long-lived `NPM_TOKEN` is needed.
-
-## Development
-
-From the repository root:
-
-```sh
-npm install
-npm test
-npm pack --dry-run
-```
-
-The build emits ESM and TypeScript declarations to `dist/`, then copies the CSS and cartridge assets. The generated output is intentionally not committed.

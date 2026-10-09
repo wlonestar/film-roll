@@ -1,6 +1,6 @@
 {
   "name": "film-roll",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "A reusable 35mm film contact-sheet component for React.",
   "license": "MIT",
   "repository": {
